@@ -114,7 +114,7 @@ def main():
     print("# other goodies")
     print("log_line_prefix = '%m <%d %u %r> %%'")
     print("log_temp_files = 0")
-    print("log_min_duration_statement = 5")
+    print("log_min_duration_statement = 10")
     
 
 if __name__ == '__main__':
