@@ -71,13 +71,14 @@ def calculate(total_mem, max_connections):
 
 
 def usage_and_exit():
-    print("Usage: %s [-m <size>] [-c <max connections>]")
+    print("Usage: %s [-m <size>] [-c <max connections>] [-s]")
     sys.exit(1)
 
 
 def main():
     mem = None
     max_connections = 100
+    have_ssd = False
 
     try:
         opts, args = getopt.getopt(sys.argv[1:], 'm:c:')
@@ -87,6 +88,8 @@ def main():
                 mem = get_size(a)
             elif o == '-c':
                 max_connections = int(a)
+            elif o == '-s'
+                have_ssd = True
             else:
                 print('invalid option: %s' % o)
                 usage_and_exit()
@@ -105,7 +108,9 @@ def main():
     pg_conf = calculate(mem, max_connections)
     for s in pg_conf.keys():
         print("%s = %s" % (s, beautify(pg_conf[s])))
-    
+    if have_ssd:
+        print("random_page_cost = 1.5")
+
     print("# other goodies")
     print("log_line_prefix = '%m <%d %u %r> %%'")
     print("log_temp_files = 0")
