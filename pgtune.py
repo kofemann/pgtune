@@ -88,7 +88,7 @@ def main():
                 mem = get_size(a)
             elif o == '-c':
                 max_connections = int(a)
-            elif o == '-s'
+            elif o == '-s':
                 have_ssd = True
             else:
                 print('invalid option: %s' % o)
