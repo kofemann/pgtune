@@ -13,7 +13,7 @@ M = K * K
 G = K * M
 
 DATA_SIZES = {'b': B, 'k': K, 'm': M, 'g': G}
-SIZE_SUFFIX = ["", "K", "M", "G", "T"]
+SIZE_SUFFIX = ["", "KB", "MB", "GB", "TB"]
 
 
 def get_size(s):
