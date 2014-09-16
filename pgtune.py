@@ -62,7 +62,7 @@ def calculate(total_mem, max_connections):
     pg_conf['maintenance_work_mem'] = to_bytes(total_mem/16, 2*G)  # max 2GB
     pg_conf['checkpoint_segments'] = 64
     pg_conf['checkpoint_completion_target'] = 0.9
-    pg_conf['wal_buffers'] = to_bytes(pg_conf['shared_buffers']*0.03)  # 3% of shared_buffers, max of 16MB.
+    pg_conf['wal_buffers'] = to_bytes(pg_conf['shared_buffers']*0.03, 16*M)  # 3% of shared_buffers, max of 16MB.
     pg_conf['default_statistics_target'] = 100
     pg_conf['synchronous_commit'] = 'off'
     pg_conf['vacuum_cost_delay'] = 50
