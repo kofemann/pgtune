@@ -105,6 +105,12 @@ def main():
     pg_conf = calculate(mem, max_connections)
     for s in pg_conf.keys():
         print("%s = %s" % (s, beautify(pg_conf[s])))
+    
+    print("# other goodies")
+    print("log_line_prefix = '%m <%d %u %r> %%'")
+    print("log_temp_files = 0")
+    print("log_min_duration_statement = 5")
+    
 
 if __name__ == '__main__':
     main()
