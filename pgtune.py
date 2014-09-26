@@ -5,7 +5,6 @@ import string
 import getopt
 import sys
 from math import floor, log
-from collections import OrderedDict
 
 B = 1
 K = 1024
@@ -28,7 +27,7 @@ def get_size(s):
 
 
 def available_memory():
-    meminfo = OrderedDict()
+    meminfo = {}
     with open('/proc/meminfo') as f:
         for line in f:
             s = line.split(': ')
