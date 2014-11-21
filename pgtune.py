@@ -70,12 +70,13 @@ def calculate(total_mem, max_connections):
 
 
 def usage_and_exit():
-    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-h]")
+    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-S] [-h]")
     print("")
     print("where:")
     print("  -m <size> : max memory to use, default total available memory")
     print("  -c <conn> : max inumber of concurent client connections, default 100")
-    print("  -s        : database located on SSD disks ( or fully fit's into memory")
+    print("  -s        : database located on SSD disks (or fully fit's into memory)")
+    print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
     print("  -h        : print this help message")
     sys.exit(1)
 
@@ -84,9 +85,10 @@ def main():
     mem = None
     max_connections = 100
     have_ssd = False
+    enable_stat = False
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'm:c:sh')
+        opts, args = getopt.getopt(sys.argv[1:], 'm:c:sSh')
 
         for o, a in opts:
             if o == '-m':
@@ -95,6 +97,8 @@ def main():
                 max_connections = int(a)
             elif o == '-s':
                 have_ssd = True
+            elif o == '-S':
+                enable_stat = True
             elif o == '-h':
                 usage_and_exit()
             else:
@@ -124,6 +128,8 @@ def main():
     print("log_min_duration_statement = 20")
     print("log_checkpoints = on")
     print("log_lock_waits = on")
+    if enable_stat:
+        print("shared_preload_libraries = 'pg_stat_statements'")
     
 
 if __name__ == '__main__':
