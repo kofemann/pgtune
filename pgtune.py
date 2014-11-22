@@ -70,13 +70,14 @@ def calculate(total_mem, max_connections):
 
 
 def usage_and_exit():
-    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-S] [-h]")
+    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-S] [-l <listen_addresses>] [-h]")
     print("")
     print("where:")
     print("  -m <size> : max memory to use, default total available memory")
     print("  -c <conn> : max inumber of concurent client connections, default 100")
     print("  -s        : database located on SSD disks (or fully fit's into memory)")
     print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
+    print("  -l <addr> : address(es) on which the server is to listen for incomming connections, default localhost")
     print("  -h        : print this help message")
     sys.exit(1)
 
@@ -86,9 +87,10 @@ def main():
     max_connections = 100
     have_ssd = False
     enable_stat = False
+    listen_addresses = 'localhost'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'm:c:sSh')
+        opts, args = getopt.getopt(sys.argv[1:], 'lm:c:sSh')
 
         for o, a in opts:
             if o == '-m':
@@ -99,6 +101,8 @@ def main():
                 have_ssd = True
             elif o == '-S':
                 enable_stat = True
+            elif o == '-l':
+                listen_addresses = a
             elif o == '-h':
                 usage_and_exit()
             else:
@@ -128,6 +132,7 @@ def main():
     print("log_min_duration_statement = 20")
     print("log_checkpoints = on")
     print("log_lock_waits = on")
+    print("listen_addresses = '%s'" % (listen_addresses))
     if enable_stat:
         print("shared_preload_libraries = 'pg_stat_statements'")
     
