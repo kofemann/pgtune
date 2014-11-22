@@ -90,7 +90,7 @@ def main():
     listen_addresses = 'localhost'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'lm:c:sSh')
+        opts, args = getopt.getopt(sys.argv[1:], 'l:m:c:sSh')
 
         for o, a in opts:
             if o == '-m':
