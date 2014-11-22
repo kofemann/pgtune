@@ -121,12 +121,14 @@ def main():
     print("# Config for %s memory and %d connections" % (to_size_string(mem), max_connections))
     print("#")
     pg_conf = calculate(mem, max_connections)
-    for s in pg_conf.keys():
+    for s in sorted(pg_conf.keys()):
         print("%s = %s" % (s, beautify(pg_conf[s])))
     if have_ssd:
         print("random_page_cost = 1.5")
 
+    print("#")
     print("# other goodies")
+    print("#")
     print("log_line_prefix = '%m <%d %u %r> %%'")
     print("log_temp_files = 0")
     print("log_min_duration_statement = 20")
