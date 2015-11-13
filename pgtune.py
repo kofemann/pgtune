@@ -129,7 +129,7 @@ def main():
     print("#")
     print("# other goodies")
     print("#")
-    print("log_line_prefix = '%m <%d %u %r> %%'")
+    print("log_line_prefix = '%m <%d %u %a %r> %%'")
     print("log_temp_files = 0")
     print("log_min_duration_statement = 20")
     print("log_checkpoints = on")
