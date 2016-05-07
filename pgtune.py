@@ -55,7 +55,7 @@ def to_bytes(n, max_size=None):
 def calculate(total_mem, max_connections):
     pg_conf = {}
     pg_conf['max_connections'] = max_connections
-    pg_conf['shared_buffers'] = to_bytes(total_mem/4, 8*G)  # max 8GB
+    pg_conf['shared_buffers'] = to_bytes(total_mem/4)
     pg_conf['effective_cache_size'] = to_bytes(total_mem * 3/4)
     pg_conf['work_mem'] = to_bytes((total_mem - pg_conf['shared_buffers']) / (max_connections * 3))
     pg_conf['maintenance_work_mem'] = to_bytes(total_mem/16, 2*G)  # max 2GB
