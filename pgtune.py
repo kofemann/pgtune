@@ -63,6 +63,8 @@ def calculate(total_mem, max_connections, pg_version):
     if LooseVersion(pg_version) < LooseVersion('9.5'):
         pg_conf['checkpoint_segments'] = 64
     else:
+      # http://www.postgresql.org/docs/current/static/release-9-5.html
+      # max_wal_size = (3 * checkpoint_segments) * 16MB
       pg_conf['min_wal_size'] = '2GB'
       pg_conf['max_wal_size'] = '4GB'
     pg_conf['checkpoint_completion_target'] = 0.9
