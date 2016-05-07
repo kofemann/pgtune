@@ -5,6 +5,7 @@ import string
 import getopt
 import sys
 from math import floor, log
+from distutils.version import LooseVersion
 
 B = 1
 K = 1024
@@ -52,14 +53,18 @@ def to_bytes(n, max_size=None):
         return min(max_size, v)
     return v
 
-def calculate(total_mem, max_connections):
+def calculate(total_mem, max_connections, pg_version):
     pg_conf = {}
     pg_conf['max_connections'] = max_connections
     pg_conf['shared_buffers'] = to_bytes(total_mem/4)
     pg_conf['effective_cache_size'] = to_bytes(total_mem * 3/4)
     pg_conf['work_mem'] = to_bytes((total_mem - pg_conf['shared_buffers']) / (max_connections * 3))
     pg_conf['maintenance_work_mem'] = to_bytes(total_mem/16, 2*G)  # max 2GB
-    pg_conf['checkpoint_segments'] = 64
+    if LooseVersion(pg_version) < LooseVersion('9.5'):
+        pg_conf['checkpoint_segments'] = 64
+    else:
+      pg_conf['min_wal_size'] = '2GB'
+      pg_conf['max_wal_size'] = '4GB'
     pg_conf['checkpoint_completion_target'] = 0.9
     pg_conf['wal_buffers'] = to_bytes(pg_conf['shared_buffers']*0.03, 16*M)  # 3% of shared_buffers, max of 16MB.
     pg_conf['default_statistics_target'] = 100
@@ -70,7 +75,7 @@ def calculate(total_mem, max_connections):
 
 
 def usage_and_exit():
-    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-S] [-l <listen_addresses>] [-h]")
+    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-S] [-l <listen_addresses>] [-v <version>] [-h]")
     print("")
     print("where:")
     print("  -m <size> : max memory to use, default total available memory")
@@ -78,6 +83,7 @@ def usage_and_exit():
     print("  -s        : database located on SSD disks (or fully fit's into memory)")
     print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
     print("  -l <addr> : address(es) on which the server is to listen for incomming connections, default localhost")
+    print("  -v <vers> : PostgreSQL version number. Default: 9.5")
     print("  -h        : print this help message")
     sys.exit(1)
 
@@ -88,9 +94,10 @@ def main():
     have_ssd = False
     enable_stat = False
     listen_addresses = 'localhost'
+    pg_version = '9.5'
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'l:m:c:sSh')
+        opts, args = getopt.getopt(sys.argv[1:], 'l:m:c:sSv:h')
 
         for o, a in opts:
             if o == '-m':
@@ -103,6 +110,8 @@ def main():
                 enable_stat = True
             elif o == '-l':
                 listen_addresses = a
+            elif o == '-v':
+                pg_version = a
             elif o == '-h':
                 usage_and_exit()
             else:
@@ -116,11 +125,11 @@ def main():
         mem = available_memory()
 
     print("#")
-    print("# dCache's chimera friendly configuration")
+    print("# dCache's chimera friendly configuration fot PostgreSQL %s" % pg_version)
     print("#")
     print("# Config for %s memory and %d connections" % (to_size_string(mem), max_connections))
     print("#")
-    pg_conf = calculate(mem, max_connections)
+    pg_conf = calculate(mem, max_connections, pg_version)
     for s in sorted(pg_conf.keys()):
         print("%s = %s" % (s, beautify(pg_conf[s])))
     if have_ssd:
