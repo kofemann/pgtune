@@ -41,4 +41,18 @@ log_checkpoints = on
 log_lock_waits = on
 listen_addresses = 'localhost'
 ```
+OS Configuration
+----------------
+For optimal DB performance an optimal hardware and OS configuration required.
+On RHEL7 based system it's ideal to use **tuned** profile.
 
+Copy **tuned.conf** file into **/usr/lib/tuned/postgres-db-server/tuned.conf** and select the
+profile:
+
+```
+$ yum install tuned
+$ wget -O /usr/lib/tuned/postgres-db-server/tuned.conf https://raw.githubusercontent.com/kofemann/pgtune/master/tuned.conf
+$ tuned-adm profile postgres-db-server
+```
+
+**IMPORTANT**: don't forget to do benchmarks defore and after.
