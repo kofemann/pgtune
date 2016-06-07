@@ -51,7 +51,8 @@ profile:
 
 ```
 $ yum install tuned
-$ wget -O /usr/lib/tuned/postgres-db-server/tuned.conf https://raw.githubusercontent.com/kofemann/pgtune/master/tuned.conf
+$ wget -O /usr/lib/tuned/postgres-db-server/tuned.conf \
+   https://raw.githubusercontent.com/kofemann/pgtune/master/tuned.conf
 $ tuned-adm profile postgres-db-server
 ```
 
