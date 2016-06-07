@@ -1,8 +1,8 @@
 pgtune
 ======
 
-
-A tool to optimize PostgreSQL for dCache namespace.
+A tool to optimize PostgreSQL for dCache namespace or any other *on line transaction processing*
+(OLTP) workloads.
 
 Usage:
 ------
