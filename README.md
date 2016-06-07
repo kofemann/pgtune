@@ -57,3 +57,7 @@ $ tuned-adm profile postgres-db-server
 ```
 
 **IMPORTANT**: don't forget to do benchmarks defore and after.
+
+LICENSE
+-------
+This work is published under [public domain](https://creativecommons.org/licenses/publicdomain/) license.
