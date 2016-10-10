@@ -148,6 +148,7 @@ def main():
     print("listen_addresses = '%s'" % (listen_addresses))
     if enable_stat:
         print("shared_preload_libraries = 'pg_stat_statements'")
+        print("pg_stat_statements.track = none")
     
 
 if __name__ == '__main__':
