@@ -81,14 +81,15 @@ def usage_and_exit():
     print("Usage: %s [-m <size>] [-c <conn>] [-r master|stand-by] [-s] [-S] [-l <listen_addresses>] [-v <version>] [-h]")
     print("")
     print("where:")
-    print("  -m <size> : max memory to use, default total available memory")
     print("  -c <conn> : max inumber of concurent client connections, default 100")
+    print("  -h        : print this help message")
+    print("  -l <addr> : address(es) on which the server is to listen for incomming connections, default localhost")
+    print("  -m <size> : max memory to use, default total available memory")
+    print("  -r <mode> : enable streaming replication")
     print("  -s        : database located on SSD disks (or fully fit's into memory)")
     print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
-    print("  -l <addr> : address(es) on which the server is to listen for incomming connections, default localhost")
     print("  -v <vers> : PostgreSQL version number. Default: 9.5")
-    print("  -r <mode> : enable streaming replication")
-    print("  -h        : print this help message")
+
     sys.exit(1)
 
 
@@ -102,7 +103,7 @@ def main():
     replication = None
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'l:m:c:sSv:hr:')
+        opts, args = getopt.getopt(sys.argv[1:], 'c:hl:m:r:sSv:')
 
         for o, a in opts:
             if o == '-m':
