@@ -78,7 +78,7 @@ def calculate(total_mem, max_connections, pg_version):
 
 
 def usage_and_exit():
-    print("Usage: %s [-m <size>] [-c <conn>] [-s] [-S] [-l <listen_addresses>] [-v <version>] [-h]")
+    print("Usage: %s [-m <size>] [-c <conn>] [-r master|stand-by] [-s] [-S] [-l <listen_addresses>] [-v <version>] [-h]")
     print("")
     print("where:")
     print("  -m <size> : max memory to use, default total available memory")
@@ -87,6 +87,7 @@ def usage_and_exit():
     print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
     print("  -l <addr> : address(es) on which the server is to listen for incomming connections, default localhost")
     print("  -v <vers> : PostgreSQL version number. Default: 9.5")
+    print("  -r <mode> : enable streaming replication")
     print("  -h        : print this help message")
     sys.exit(1)
 
@@ -98,9 +99,10 @@ def main():
     enable_stat = False
     listen_addresses = 'localhost'
     pg_version = '9.5'
+    replication = None
 
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 'l:m:c:sSv:h')
+        opts, args = getopt.getopt(sys.argv[1:], 'l:m:c:sSv:hr:')
 
         for o, a in opts:
             if o == '-m':
@@ -115,6 +117,11 @@ def main():
                 listen_addresses = a
             elif o == '-v':
                 pg_version = a
+            elif o == '-r':
+                if a not in ['master', 'stand-by']:
+                    print('invalid replication mode: %s' % a)
+                    usage_and_exit()
+                replication = a
             elif o == '-h':
                 usage_and_exit()
             else:
@@ -138,6 +145,26 @@ def main():
     if have_ssd:
         print("random_page_cost = 1.5")
 
+    if replication == 'master':
+        print("#")
+        print("# replica configuration stub for master")
+        print("#")
+        print("# See: https://wiki.postgresql.org/wiki/Streaming_Replication")
+        print("#")
+        print("archive_mode = on")
+        print("archive_command = '/bin/true'")
+        print("archive_timeout = 0")
+        print("max_wal_senders = 2")
+        print("wal_keep_segments = 32")
+        print("wal_level = hot_standby")
+    elif replication == 'stand-by':
+        print("#")
+        print("# replica configuration stub for hot stand-by")
+        print("#")
+        print("# See: https://wiki.postgresql.org/wiki/Streaming_Replication")
+        print("#")
+        print("hot_standby = on")
+
     print("#")
     print("# other goodies")
     print("#")
@@ -150,8 +177,7 @@ def main():
     if enable_stat:
         print("shared_preload_libraries = 'pg_stat_statements'")
         print("pg_stat_statements.track = none")
-    
+
 
 if __name__ == '__main__':
     main()
-
