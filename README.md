@@ -41,6 +41,15 @@ log_checkpoints = on
 log_lock_waits = on
 listen_addresses = 'localhost'
 ```
+
+Streaming replication
+---------------------
+The **pgtune** script creates a configuration stubs for streaming master-slave
+replication, however you still have to create corresponding **recovery.conf** on
+the slave nodes as well as adjust **archive_command**.
+
+See [PostgreSQL wiki][1] on streaming replication configuration.
+
 OS Configuration
 ----------------
 For optimal DB performance an optimal hardware and OS configuration required.
@@ -60,4 +69,7 @@ $ tuned-adm profile postgres-db-server
 
 LICENSE
 -------
-This work is published under [public domain](https://creativecommons.org/licenses/publicdomain/) license.
+This work is published under [public domain][2] license.
+
+[1]: https://wiki.postgresql.org/wiki/Streaming_Replication
+[2]: https://creativecommons.org/licenses/publicdomain/
