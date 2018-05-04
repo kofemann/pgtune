@@ -4,6 +4,8 @@ pgtune
 A tool to optimize PostgreSQL for dCache namespace or any other *on line transaction processing*
 (OLTP) workloads.
 
+Based on information from [Tuning_Your_PostgreSQL_Server][3] wiki page.
+
 Usage:
 ------
 ```
@@ -73,3 +75,4 @@ This work is published under [public domain][2] license.
 
 [1]: https://wiki.postgresql.org/wiki/Streaming_Replication
 [2]: https://creativecommons.org/licenses/publicdomain/
+[3]: https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
