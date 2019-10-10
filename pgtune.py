@@ -5,8 +5,9 @@ from __future__ import print_function
 import string
 import getopt
 import sys
-from math import floor, log
+from math import floor, log, ceil
 from distutils.version import LooseVersion
+import multiprocessing
 
 B = 1
 K = 1024
@@ -74,6 +75,12 @@ def calculate(total_mem, max_connections, pg_version):
     pg_conf['synchronous_commit'] = 'off'
     pg_conf['vacuum_cost_delay'] = 50
     pg_conf['wal_writer_delay'] = '10s'
+    if LooseVersion(pg_version) >= LooseVersion('10'):
+        workers = multiprocessing.cpu_count()
+        pg_conf['max_worker_processes'] = workers
+        pg_conf['max_parallel_workers'] = workers
+        pg_conf['max_parallel_workers_per_gather'] = int(ceil(workers/2.))
+
     return pg_conf
 
 
