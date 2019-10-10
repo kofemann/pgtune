@@ -106,7 +106,7 @@ def main():
     have_ssd = False
     enable_stat = False
     listen_addresses = 'localhost'
-    pg_version = '9.5'
+    pg_version = '12'
     replication = None
 
     try:
