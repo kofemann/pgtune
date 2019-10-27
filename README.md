@@ -1,10 +1,10 @@
 pgtune
 ======
 
-A tool to optimize PostgreSQL for dCache namespace or any other *on line transaction processing*
+A tool to optimize PostgreSQL for dCache namespace or any other **on line transaction processing**
 (OLTP) workloads.
 
-Based on information from [Tuning Your PostgreSQL Server][3] wiki page.
+Based on the information from [Tuning Your PostgreSQL Server][3] wiki page.
 
 Usage:
 ------
