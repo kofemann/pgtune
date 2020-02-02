@@ -69,6 +69,11 @@ $ tuned-adm profile postgres-db-server
 
 **IMPORTANT**: don't forget to do benchmarks defore and after.
 
+Alternatives
+------------
+- [pgtune by 2ndQuadrant.com][4] original but not up-to-date tool by Greg Smith
+- [Web based PgTune][5] Web app build to tune your DB
+
 LICENSE
 -------
 This work is published under [public domain][2] license.
@@ -76,3 +81,5 @@ This work is published under [public domain][2] license.
 [1]: https://wiki.postgresql.org/wiki/Streaming_Replication
 [2]: https://creativecommons.org/licenses/publicdomain/
 [3]: https://wiki.postgresql.org/wiki/Tuning_Your_PostgreSQL_Server
+[4]: https://github.com/gregs1104/pgtune
+[5]: https://pgtune.leopard.in.ua/#/
