@@ -92,7 +92,7 @@ def usage_and_exit():
     print("  -h        : print this help message")
     print("  -l <addr> : address(es) on which the server is to listen for incomming connections, default localhost")
     print("  -m <size> : max memory to use, default total available memory")
-    print("  -r <mode> : enable streaming replication")
+    print("  -r <mode> : configure streaming replication mode: `master` or `stand-by`")
     print("  -s        : database located on SSD disks (or fully fit's into memory)")
     print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
     print("  -v <vers> : PostgreSQL version number. Default: 9.5")
