@@ -17,6 +17,8 @@ G = K * M
 DATA_SIZES = {'b': B, 'k': K, 'm': M, 'g': G}
 SIZE_SUFFIX = ["", "KB", "MB", "GB", "TB"]
 
+DEFAULT_PG_VERSION = '12'
+
 
 def get_size(s):
     last_symbol = s[-1:].lower()
@@ -95,7 +97,7 @@ def usage_and_exit():
     print("  -r <mode> : configure streaming replication mode: `master` or `stand-by`")
     print("  -s        : database located on SSD disks (or fully fit's into memory)")
     print("  -S        : enable tracking of SQL statement execution (require pg >= 9.0)")
-    print("  -v <vers> : PostgreSQL version number. Default: 9.5")
+    print("  -v <vers> : PostgreSQL version number. Default: %s" % DEFAULT_PG_VERSION)
 
     sys.exit(1)
 
@@ -106,7 +108,7 @@ def main():
     have_ssd = False
     enable_stat = False
     listen_addresses = 'localhost'
-    pg_version = '12'
+    pg_version = None
     replication = None
 
     try:
@@ -141,6 +143,9 @@ def main():
 
     if mem is None:
         mem = available_memory()
+
+    if pg_version is None:
+        pg_version = DEFAULT_PG_VERSION
 
     print("#")
     print("# dCache's chimera friendly configuration fot PostgreSQL %s" % pg_version)
