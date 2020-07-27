@@ -1,7 +1,6 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from __future__ import print_function
 import string
 import getopt
 import sys
@@ -19,16 +18,15 @@ SIZE_SUFFIX = ["", "KB", "MB", "GB", "TB"]
 
 DEFAULT_PG_VERSION = '12'
 
-
 def get_size(s):
     last_symbol = s[-1:].lower()
     if last_symbol in string.digits:
-        return long(s)
+        return int(s)
 
-    if not DATA_SIZES.has_key(last_symbol):
+    if last_symbol not in DATA_SIZES:
         raise Exception('Invalid format: %s' % s)
 
-    return long(s[:-1]) * DATA_SIZES[last_symbol]
+    return int(s[:-1]) * DATA_SIZES[last_symbol]
 
 
 def available_memory():
