@@ -75,11 +75,16 @@ def calculate(total_mem, max_connections, pg_version):
     pg_conf['synchronous_commit'] = 'off'
     pg_conf['vacuum_cost_delay'] = 50
     pg_conf['wal_writer_delay'] = '10s'
+
+    cores = multiprocessing.cpu_count()
     if LooseVersion(pg_version) >= LooseVersion('10'):
-        workers = multiprocessing.cpu_count()
-        pg_conf['max_worker_processes'] = workers
-        pg_conf['max_parallel_workers'] = workers
-        pg_conf['max_parallel_workers_per_gather'] = int(ceil(workers/2.))
+        pg_conf['max_worker_processes'] = cores
+        pg_conf['max_parallel_workers'] = cores
+        pg_conf['max_parallel_workers_per_gather'] = int(ceil(cores/2.))
+
+    if LooseVersion(pg_version) >= LooseVersion('18'):
+        pg_conf['io_method'] = 'worker'
+        pg_conf['io_workers'] = int(ceil(cores/4.))
 
     return pg_conf
 
