@@ -190,6 +190,7 @@ def main():
     print("log_checkpoints = on")
     print("log_lock_waits = on")
     print("bytea_output = 'escape'")
+    print("jit = on")
     print("listen_addresses = '%s'" % (listen_addresses))
     if enable_stat:
         print("shared_preload_libraries = 'pg_stat_statements'")
